@@ -1,8 +1,23 @@
-const create = async () => {
-    // Diese Funktion wird verwendet, um asynchron etwas zu erstellen.
+import {fileURLToPath} from 'url';
+import {join} from "path";
+import * as fs from "fs";
 
-    // Schreibe hier deinen Code
+const successText = "I am fresh and young";
+const filename = "fresh.txt";
+const folder = "files";
+const errorMessage = "FS operation failed";
+const pathToFile = join(fileURLToPath(import.meta.url), "..", folder, filename)
+const data = new Uint8Array(Buffer.from(successText));
+
+const create = async () => {
+    try {
+        await fs.promises.writeFile(pathToFile, data, {
+            flag: "wx"
+        })
+    } catch (error) {
+        throw new Error(errorMessage)
+    }
+
 };
 
-// Warte auf die Ausführung der create-Funktion
 await create();
